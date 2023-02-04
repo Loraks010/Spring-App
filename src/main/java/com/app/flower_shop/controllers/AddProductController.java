@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Controller
-@PreAuthorize("hasAnyAuthority('ADMIN')")
+@PreAuthorize("hasAnyAuthority('ADMIN','SELLER')")
 public class AddProductController {
     @Autowired
     private ProductRepository productRepository;

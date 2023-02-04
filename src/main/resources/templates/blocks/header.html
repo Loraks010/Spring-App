@@ -1,44 +1,49 @@
 <div th:fragment="header">
-    <div class="my-3 p-3 bg-body rounded shadow-sm" >
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Flower Shop</a>
-        <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Flower Shop</a>
+                <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="assortment">Ассортимент</a>
-                </li>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="add">Добавить товар</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="profile">Профиль</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="user">Пользователи</a>
-                </li>
-            </ul>
-            <div class="navbar-nav">
-                <form action="login">
-                <div class="nav-item text-nowrap">
-                    <a class="btn btn-outline-success" aria-current="page" href="registration">Sign in</a>
-                </div>
-                </form>
-                <div class="nav-item text-nowrap">
-                    <a class="btn btn-outline-success" aria-current="page" href="login">Log in</a>
+                <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="assortment">Ассортимент</a>
+                        </li>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </ul>
+                    <div class="navbar-nav">
+                        <form action="login" th:unless="${#authorization.expression('isAuthenticated()')}">
+                            <div class="nav-item text-nowrap">
+                                <a class="btn btn-outline-success" aria-current="page" href="registration">Sign in</a>
+                                <a class="btn btn-outline-success" aria-current="page" href="login">Log in</a>
+                            </div>
+                        </form>
+                        <div class="btn-group" th:if="${#authorization.expression('isAuthenticated()')}">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false" th:text="${#authentication.name}"></button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a href="/profile" class="dropdown-item" type="button">Профиль</a></li>
+                                <li><a href="/users" class="dropdown-item" type="button"
+                                       sec:authorize="hasAuthority('ADMIN')">Пользователи</a></li>
+                                <li><a href="/add" class="dropdown-item" type="button"
+                                       sec:authorize="hasAnyAuthority('ADMIN','SELLER')">Добавить товар</a></li>
+                                <li>
+                                    <form th:action="@{/logout}" method="post" class="dropdown-item">
+                                        <button class=" btn btn-light" type="submit" >Выйти</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-        </div>
+        </nav>
     </div>
-</nav>
-</div>
 </div>

@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@PreAuthorize("hasAnyAuthority('ADMIN')")
+@PreAuthorize("hasAnyAuthority('ADMIN','SELLER')")
 public class EditController {
     @Autowired
     private ProductRepository productRepository;
