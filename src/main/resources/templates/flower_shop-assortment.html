@@ -10,61 +10,71 @@
 <div th:insert="~{blocks/header :: header}"></div>
 <input type="hidden" name="_csrf" th:value="${_csrf.token}">
 <div class="container">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="col" th:each="el : ${products}">
-            <div class="card shadow-sm">
-                <img th:src="@{/img/} + ${el.filename}" width="100%" height="300">
-                <div class="card-body">
-                    <strong class="d-block text-gray-dark" th:text="${el.name}"></strong>
-                    <p class="card-text">
-                    <div class="text-truncate" th:text="${el.description}"></div>
-                    </p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                    th:data-bs-target="@{#ID}+${el.id}">View
-                            </button>
-                            <a type="button" class="btn btn-primary" sec:authorize="hasAnyAuthority('ADMIN','SELLER')"
-                               th:href="'/edit'+${el.id}">Edit</a>
-                            <a type="button" class="btn btn-danger" sec:authorize="hasAnyAuthority('ADMIN','SELLER')"
-                               th:href="'/delete'+${el.id}">Delete</a>
+    <div th:if="${#lists.size(products)}==0">
+        <div class="col-lg-6 col-md-8 mx-auto py-5 text-center">
+            <h1 class="fw-light">По вашему фильтру ничего не найдено:(</h1>
+        </div>
+    </div>
+    <div th:if="${#lists.size(products)}!=0">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col" th:each="el : ${products}">
+                <div class="card shadow-sm">
+                    <img th:src="@{/img/} + ${el.filename}" width="100%" height="300">
+                    <div class="card-body">
+                        <strong class="d-block text-gray-dark" th:text="${el.name}"></strong>
+                        <p class="card-text">
+                        <div class="text-truncate" th:text="${el.description}"></div>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                        th:data-bs-target="@{#ID}+${el.id}">View
+                                </button>
+                                <a type="button" class="btn btn-primary"
+                                   sec:authorize="hasAnyAuthority('ADMIN','SELLER')"
+                                   th:href="'/edit'+${el.id}">Edit</a>
+                                <a type="button" class="btn btn-danger"
+                                   sec:authorize="hasAnyAuthority('ADMIN','SELLER')"
+                                   th:href="'/delete'+${el.id}">Delete</a>
+                            </div>
+                            <div class="text-muted" th:text=" ${el.price}+ ' руб'"></div>
                         </div>
-                        <div class="text-muted" th:text=" ${el.price}+ ' руб'"></div>
-                    </div>
-                    <!-- Модальное окно -->
-                    <div class="modal  " th:id="@{ID}+${el.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel" th:text="${el.name}"></h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Закрыть"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="card shadow-sm">
-                                        <img th:src="@{/img/} + ${el.filename}" width="100%" height="300">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <strong class="d-block text-gray-dark" th:text="${el.name}"></strong>
-                                                <div class="text-end" th:text=" ${el.price}+ ' руб'"></div>
+                        <!-- Модальное окно -->
+                        <div class="modal  " th:id="@{ID}+${el.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel" th:text="${el.name}"></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Закрыть"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="card shadow-sm">
+                                            <img th:src="@{/img/} + ${el.filename}" width="100%" height="300">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <strong class="d-block text-gray-dark"
+                                                            th:text="${el.name}"></strong>
+                                                    <div class="text-end" th:text=" ${el.price}+ ' руб'"></div>
+                                                </div>
+                                                <p class="card-text">
+                                                <div class="text" th:text="${el.description}"></div>
+                                                </p>
                                             </div>
-                                            <p class="card-text">
-                                            <div class="text" th:text="${el.description}"></div>
-                                            </p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                Закрыть
-                                            </button>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Закрыть
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Модальное окно -->
                 </div>
-                <!-- Модальное окно -->
             </div>
         </div>
     </div>
