@@ -19,6 +19,7 @@
         <td th:text="${el.username}"></td>
         <td th:text="${el.roles}"></td>
         <td><a th:href="@{/user/}+${el.id}">Edit</a></td>
+        <td><a th:href="@{/user/}+${el.id}+@{/delete}">Delete</a></td>
     </tr>
     </tbody>
 </table>
