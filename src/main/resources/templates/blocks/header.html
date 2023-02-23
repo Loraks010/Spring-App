@@ -11,19 +11,20 @@
                 <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="assortment">Ассортимент</a>
+                            <a class="nav-link active" aria-current="page" href="/assortment">Ассортимент</a>
                         </li>
-                        <form class="d-flex" role="search" method="post" action="filter">
+                        <form class="d-flex" role="search" method="post" action="/filter">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                                    name="text">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </ul>
                     <div class="navbar-nav">
                         <form action="login" th:unless="${#authorization.expression('isAuthenticated()')}">
                             <div class="nav-item text-nowrap">
-                                <a class="btn btn-outline-success" aria-current="page" href="registration">Sign in</a>
-                                <a class="btn btn-outline-success" aria-current="page" href="login">Log in</a>
+                                <a class="btn btn-outline-success" aria-current="page" href="/login">Log in</a>
+                                <a class="btn btn-outline-success" aria-current="page" href="/registration">Sign in</a>
                             </div>
                             <input type="hidden" name="_csrf" th:value="${_csrf.token}">
                         </form>
@@ -31,14 +32,14 @@
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
                                     aria-expanded="false" th:text="${#authentication.name}"></button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a href="profile" class="dropdown-item" type="button">Профиль</a></li>
-                                <li><a href="user" class="dropdown-item" type="button"
+                                <li><a href="/profile" class="dropdown-item" type="button">Профиль</a></li>
+                                <li><a href="/user" class="dropdown-item" type="button"
                                        sec:authorize="hasAuthority('ADMIN')">Пользователи</a></li>
-                                <li><a href="add" class="dropdown-item" type="button"
+                                <li><a href="/add" class="dropdown-item" type="button"
                                        sec:authorize="hasAnyAuthority('ADMIN','SELLER')">Добавить товар</a></li>
                                 <li>
                                     <form th:action="@{/logout}" method="post" class="dropdown-item">
-                                        <button class=" btn btn-light" type="submit">Выйти</button>
+                                        <button class="btn btn-light" type="submit">Выйти</button>
                                     </form>
                                 </li>
                             </ul>
