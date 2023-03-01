@@ -53,4 +53,12 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
+    public boolean changePassword(User user) {
+        if (userRepository.existsById(user.getId())) {
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
 }
